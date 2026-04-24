@@ -7,6 +7,10 @@ double subtract(double *a, double *b);
 double multiply(double *a, double *b); 
 double divide(double *a, double *b);
 void calculate(double *a, double *b, char op, double *result);
+int arraynumb = 0;
+int *arraynum = &arraynumb;
+double history[3];
+
 
 int main()
 {
@@ -16,9 +20,16 @@ int main()
     double *ptr1 = &num1;
     double *ptr2 = &num2;
     char operator;
-    double history[2];
+    int arraylen = sizeof(history) / sizeof(history[0]);
+    
 
     while(1){
+    int i;
+
+    printf("Previous Anwers:");
+    for(i = 0; i < arraylen; i++){
+        printf("%f\n", history[i]);
+    }
     printf("Select number 1\n");
 
     scanf("%lf", &num1);
@@ -76,8 +87,12 @@ void calculate(double *a, double *b, char op, double *result){
            printf("Please select a valid operator!!!!!\n");
            *result = -DBL_MAX;
     }
-     printf("%.2lf\n", *result);
+    printf("%.2lf\n", *result);
 
+    history[arraynumb] = *result;
+    arraynumb += 1;
+    arraynumb %= 3;
+    
 }
 
 double add(double *a, double *b){
