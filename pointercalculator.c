@@ -16,6 +16,9 @@ int main()
     double *ptr1 = &num1;
     double *ptr2 = &num2;
     char operator;
+    double history[2];
+
+    while(1){
     printf("Select number 1\n");
 
     scanf("%lf", &num1);
@@ -29,6 +32,7 @@ int main()
     scanf("\n%c", &operator);
 
     calculate(ptr1, ptr2, operator, resptr);
+    }
 
     // switch (operator){
     //     case '+':
