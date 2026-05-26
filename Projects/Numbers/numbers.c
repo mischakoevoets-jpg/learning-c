@@ -12,17 +12,17 @@ typedef struct {
 } Array;
 
 void initArray(Array *a, size_t initialSize) {
-  a->array = malloc(initialSize * sizeof(int));
+  a->array = malloc(initialSize * sizeof(double));
   a->used = 0;
   a->size = initialSize;
 }
 
-void insertArray(Array *a, int element) {
+void insertArray(Array *a, double element) {
   // a->used is the number of used entries, because a->array[a->used++] updates a->used only *after* the array has been accessed.
   // Therefore a->used can go up to a->size 
   if (a->used == a->size) {
     a->size *= 2;
-    a->array = realloc(a->array, a->size * sizeof(int));
+    a->array = realloc(a->array, a->size * sizeof(double));
   }
   a->array[a->used++] = element;
 }
@@ -35,10 +35,11 @@ void freeArray(Array *a) {
 //end stack overflow bit
 
 Array getNums(int a);
-double comp(const void *a, const void *b) {
-  	return *(double*)a - *(double*)b;
+int comp(const void *a, const void *b) {
+    return (*(double *)a - *(double  *)b);
 }
-void calculate(Array nums);
+
+void calculate(Array nums, int len);
 Array numArray;
 
 int main(){
@@ -48,9 +49,7 @@ int main(){
     scanf("%d", &totalNums);
 
     getNums(totalNums);
-
-
-
+    calculate(numArray, totalNums);
     return 0;
 }
 
@@ -66,13 +65,13 @@ Array getNums(int tNums){
     return numArray;
 }
 
-void calculate(Array nums){
-    double numTotal;
-    int len = sizeof(&nums.array) / sizeof(nums.array[0]);
+void calculate(Array nums, int len){
+    double numTotal = 0;
+    len -= 1;
     int i;
     qsort(nums.array, len, sizeof(double), comp);
-    double lowestNum = nums.array[len];
-    double highestNum = nums.array[0];
+    double lowestNum = nums.array[0];
+    double highestNum = nums.array[len];
     double average;
     for (i = 0; i < len; i++) {
         numTotal += nums.array[i];
@@ -82,6 +81,4 @@ void calculate(Array nums){
     printf("\nThe average is %lf\n", average);
     printf("\nThe lowest number is %lf\n", lowestNum);
     printf("\nThe highest number is %lf\n", highestNum);
-
-
 }
